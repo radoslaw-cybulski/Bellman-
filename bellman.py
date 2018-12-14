@@ -1,4 +1,5 @@
 from copy import deepcopy
+import math
 
 f = open("mapa.txt","r")
 
@@ -12,6 +13,7 @@ listaruchow = []
 politykaruchu = []
 
 
+
 for word in f.readline().split():
     rozmiarmapy.append(int(word))
 
@@ -22,6 +24,8 @@ for wiersz in range(rozmiarmapy[1] ):
     for kolumna in range(rozmiarmapy[0] - 1):
         politykaruchu[wiersz].append(0)
 print (politykaruchu)
+
+
 
 for linia in range(rozmiarmapy[1]):
     mapatypow.append(f.readline().split())
@@ -38,9 +42,10 @@ for i in range(rozmiarmapy[1]):
         mapakosztow[i][j] = int(mapakosztow[i][j])
 
 V = deepcopy(mapakosztow)
-
 for przejscie in range(100):
     Vstary = deepcopy(V)
+    roznice = []
+
     for wiersz in range(rozmiarmapy[1]):
         for kolumna in range(rozmiarmapy[0]):
             if mapatypow[wiersz][kolumna] == 1:
@@ -124,6 +129,18 @@ for przejscie in range(100):
                 elif najlepsza_akcja == akcja_lewo:
                     politykaruchu[wiersz][kolumna] = 4
                 V[wiersz][kolumna] = mapakosztow[wiersz][kolumna] + gama * najlepsza_akcja
+
+    for wartosci in range(rozmiarmapy[1]):
+        for kolumna in range(rozmiarmapy[0] - 1):
+            roznice.append(Vstary[wartosci][kolumna] - V[wartosci][kolumna])
+    minimalna = math.fabs(min(roznice))
+    if minimalna < 0.0001:
+        print(przejscie)
+        break
+
+
+
+
 
 
 
